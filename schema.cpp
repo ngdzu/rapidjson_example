@@ -40,36 +40,40 @@ using namespace rapidjson;
 
 int main()
 {
-    Document sd;
-    if (sd.Parse(schemaJson).HasParseError())
-    {
-        // the schema is not a valid JSON
-        // ...
-    }
+  Document sd;
+  if (sd.Parse(schemaJson).HasParseError())
+  {
+    // the schema is not a valid JSON
+    // ...
+  }
 
-    SchemaDocument schema(sd); // sd is no longer needed
+  SchemaDocument schema(sd); // sd is no longer needed
 
-    Document d;
-    if (d.Parse(personJson).HasParseError())
-    {
-        // the personJson is not a valid JSON
-        // ...
-    }
+  Document d;
+  if (d.Parse(personJson).HasParseError())
+  {
+    // the personJson is not a valid JSON
+    // ...
+  }
 
-    SchemaValidator validator(schema);
-    if (!d.Accept(validator))
-    {
-        // Input JSON is invalid according to the schema
-        // Output diagnostic information
-        StringBuffer sb;
-        validator.GetInvalidSchemaPointer().StringifyUriFragment(sb);
-        printf("Invalid schema: %s\n", sb.GetString());
-        printf("Invalid keyword: %s\n", validator.GetInvalidSchemaKeyword());
+  SchemaValidator validator(schema);
+  if (!d.Accept(validator))
+  {
+    // Input JSON is invalid according to the schema
+    // Output diagnostic information
+    StringBuffer sb;
+    validator.GetInvalidSchemaPointer().StringifyUriFragment(sb);
+    printf("Invalid schema: %s\n", sb.GetString());
+    printf("Invalid keyword: %s\n", validator.GetInvalidSchemaKeyword());
 
-        sb.Clear();
-        validator.GetInvalidDocumentPointer().StringifyUriFragment(sb);
-        printf("Invalid document: %s\n", sb.GetString());
-    }
+    sb.Clear();
+    validator.GetInvalidDocumentPointer().StringifyUriFragment(sb);
+    printf("Invalid document: %s\n", sb.GetString());
+  }
+  else
+  {
+    printf("success!\n");
+  }
 
-    return 0;
+  return 0;
 }
